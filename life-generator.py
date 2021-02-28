@@ -3,10 +3,10 @@
 # Description:  Takes an input of product data and generates the top X products.
 import csv
 from os import path
-import sys
 from database import Database
-from generator_gui import GeneratorGui
 from flask import Flask, request
+import json
+from json import JSONEncoder
 
 app = Flask(__name__)
 
@@ -19,7 +19,10 @@ def address_toy_match():
 
     # Parse the request
     addresses = req["addresses"]
-    address_toy_pairs = get_address_toy_pairs(addresses)
+    toy_category = "Hobbies"        # Need to figure out how this will be received
+
+    address_toy_pairs = get_address_toy_pairs(addresses, toy_category)
+    print(address_toy_pairs)
 
     # Send JSON file of address, toy pairs
     address_toy_object = {"address_toys": address_toy_pairs}            # address_toy_pairs = [[address_1, toy_1], [address_2, toy_2], ..., [address_n, toy_n]]
@@ -27,35 +30,24 @@ def address_toy_match():
     return address_toy_object, 200
 
 
-def get_address_toy_pairs(addresses):
+def get_address_toy_pairs(addresses, toy_category):
     """
     Receives a list of addresses and returns a list of address-toy pairs
     :param addresses: Given list of addresses
+    :param toy_category: User-defined category of toys from which to generate top toys from
     :return: List of address-toy pairs
     """
     # get number of addresses
     num_of_people = len(addresses)
 
-    # get toy category
-    toy_category = ""
-
     # get toys
-    toys = get_top_toys(toy_category, num_of_people)
+    toys = get_top_toys(toy_category, num_of_people)                # encode each toy toys
 
     # match addresses to toys
     address_toy_pairs = match_address_to_toys(addresses, toys)
 
     # return address-toy pairs
     return address_toy_pairs
-
-
-def match_address_to_toys(addresses, toys):
-    """
-    Matches a list of addresses to a list of toys
-    :param addresses: List of addresses to be matched
-    :param toys: List of toys to be matched
-    :return: List of address-toy pairs
-    """
 
 
 def get_top_toys(toy_category, num_of_people):
@@ -65,6 +57,52 @@ def get_top_toys(toy_category, num_of_people):
     :param num_of_people: User-defined number of people to generate toys for
     :return: List of top toys in given category
     """
+    # create a database
+    toy_database = Database()
+
+    # get top toys
+    top_toys = toy_database.get_top_items("toys", toy_category, num_of_people)
+
+    # convert toys to dictionaries
+    convert_toys_to_dicts(top_toys)
+
+    # return top toys
+    return top_toys
+
+
+def convert_toys_to_dicts(toys):
+    """
+    Converts a list of toys to their dictionary form
+    :param toys: Given list of toys to convert
+    """
+    index = 0
+
+    while index < len(toys):
+        toys[index] = toys[index].convert_to_dict()
+        index += 1
+
+
+def match_address_to_toys(addresses, toys):
+    """
+    Matches a list of addresses to a list of toys
+    :param addresses: List of addresses to be matched
+    :param toys: List of toys to be matched
+    :return: List of address-toy pairs
+    """
+    add_index = 0
+    toy_index = 0
+
+    address_toy_pairs = []
+
+    # iterate through address list
+    while add_index < len(addresses) and toy_index < len(toys):
+        address_toy = [addresses[add_index], toys[toy_index]]
+        address_toy_pairs.append(address_toy)
+
+        add_index += 1
+        toy_index += 1
+
+    return address_toy_pairs
 
 
 def parse_file(infile):
