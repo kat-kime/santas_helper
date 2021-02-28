@@ -77,7 +77,6 @@ def submitInfo(event):
         addressList.insert(idx, val[0] + ' ' + val[1] + ' ' + val[2] + ' ' + val[3] + ' ' + val[4])    
     addressList.pack()
     output(state, addycount, infoList)
-
     address_toy_pairs = sendRequest(state, addycount)
     addressToyList = tk.Listbox(width=50)
     for idx, val in enumerate(address_toy_pairs):
@@ -85,8 +84,6 @@ def submitInfo(event):
     addressToyList.pack()
     window.update()
     return
-
-
 
 def output(state, num, infoList):
     outfile = open('output.csv', 'w')
@@ -104,7 +101,7 @@ def requestSetup(state, num):
     for addy in getInfo(state, num):
         string = ""
         for x in addy:
-            string += x + " "       
+            string += x + " "
         addressList.append(string)
     addresses = {"addresses": addressList}
     parameters = json.dumps(addresses)
@@ -113,16 +110,15 @@ def requestSetup(state, num):
 
 def sendRequest(state, num):
     parameters = requestSetup(state, num)
-    response = requests.post('http://localhost:7654', data = parameters)
-    '''
-    data = json.loads(response)
+    response = requests.post('http://localhost:7654', json=parameters)
+    print(response.text)
+    data = json.loads(response.text)
+    address_toy_pairs = []
     if (data["address_toys"]):
-        address_toy_pairs = []
         for item in data["address_toys"]:
             address_toy_pairs.append(item)
-        print("Revieved address toy pairs")
+        print("Recieved address toy pairs")
         print("Here is the list: ")
-    '''
     print(response)
     return address_toy_pairs
 
