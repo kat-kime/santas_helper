@@ -108,12 +108,15 @@ def requestSetup(state, num):
         addressList.append(string)
     addresses = {"addresses": addressList}
     parameters = json.dumps(addresses)
+
     print(parameters)
     return parameters
 
 def sendRequest(state, num):
+    # testing parameters
     parameters = requestSetup(state, num)
-    response = requests.post('http://localhost:7654', data = parameters)
+    response = requests.post('http://127.0.0.1:7654', data=parameters)
+
     '''
     data = json.loads(response)
     if (data["address_toys"]):
@@ -123,7 +126,10 @@ def sendRequest(state, num):
         print("Revieved address toy pairs")
         print("Here is the list: ")
     '''
-    print(response)
+    print("Response:", response)
+    data = response.json()
+    print(data)
+
     return address_toy_pairs
 
 
