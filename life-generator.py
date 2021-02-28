@@ -16,7 +16,7 @@ def address_toy_match():
     # Get the request
     req = request.get_json()        # { "addresses": [address_1, address_2, address_3, ..., address_n] }
     print(req)
-
+    req = json.loads(req)
     # Parse the request
     addresses = req["addresses"]
     toy_category = "Hobbies"        # Need to figure out how this will be received
@@ -26,7 +26,7 @@ def address_toy_match():
 
     # Send JSON file of address, toy pairs
     address_toy_object = {"address_toys": address_toy_pairs}            # address_toy_pairs = [[address_1, toy_1], [address_2, toy_2], ..., [address_n, toy_n]]
-
+    json.dumps(address_toy_object)
     return address_toy_object, 200
 
 
