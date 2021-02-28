@@ -6,6 +6,65 @@ from os import path
 import sys
 from database import Database
 from generator_gui import GeneratorGui
+from flask import Flask, request
+
+app = Flask(__name__)
+
+
+@app.route("/", methods=["POST"])
+def address_toy_match():
+    # Get the request
+    req = request.get_json()        # { "addresses": [address_1, address_2, address_3, ..., address_n] }
+    print(req)
+
+    # Parse the request
+    addresses = req["addresses"]
+    address_toy_pairs = get_address_toy_pairs(addresses)
+
+    # Send JSON file of address, toy pairs
+    address_toy_object = {"address_toys": address_toy_pairs}            # address_toy_pairs = [[address_1, toy_1], [address_2, toy_2], ..., [address_n, toy_n]]
+
+    return address_toy_object, 200
+
+
+def get_address_toy_pairs(addresses):
+    """
+    Receives a list of addresses and returns a list of address-toy pairs
+    :param addresses: Given list of addresses
+    :return: List of address-toy pairs
+    """
+    # get number of addresses
+    num_of_people = len(addresses)
+
+    # get toy category
+    toy_category = ""
+
+    # get toys
+    toys = get_top_toys(toy_category, num_of_people)
+
+    # match addresses to toys
+    address_toy_pairs = match_address_to_toys(addresses, toys)
+
+    # return address-toy pairs
+    return address_toy_pairs
+
+
+def match_address_to_toys(addresses, toys):
+    """
+    Matches a list of addresses to a list of toys
+    :param addresses: List of addresses to be matched
+    :param toys: List of toys to be matched
+    :return: List of address-toy pairs
+    """
+
+
+def get_top_toys(toy_category, num_of_people):
+    """
+    Generates a list of top toys in given toy category
+    :param toy_category: User-defined toy category
+    :param num_of_people: User-defined number of people to generate toys for
+    :return: List of top toys in given category
+    """
 
 
 def parse_file(infile):
@@ -67,7 +126,8 @@ def get_header():
 
 
 def main():
-    item_type = 0
+
+    """item_type = 0
     item_category = 1
     num_to_generate = 2
     file_input = ""
@@ -89,10 +149,11 @@ def main():
             num = int(request[num_to_generate])
 
             top_products = database.get_top_items(request[item_type], request[item_category], num)
-            write_output(top_products, num)
+            write_output(top_products, num)"""
 
 
 # starter code
 if __name__ == "__main__":
-    main()
+    app.run(host="127.0.0.1", port=7654)
+    # main()
 
