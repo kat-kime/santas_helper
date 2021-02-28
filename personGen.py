@@ -111,7 +111,6 @@ def requestSetup(state, num):
 def sendRequest(state, num):
     parameters = requestSetup(state, num)
     response = requests.post('http://localhost:7654', json=parameters)
-    print(response.text)
     data = json.loads(response.text)
     address_toy_pairs = []
     if (data["address_toys"]):
@@ -119,7 +118,6 @@ def sendRequest(state, num):
             address_toy_pairs.append(item)
         print("Recieved address toy pairs")
         print("Here is the list: ")
-    print(response)
     return address_toy_pairs
 
 
