@@ -1,3 +1,6 @@
 # ignore the notes file
 notes.txt
-./venv
+venv/
+.DS_Store
+.idea/
+__pycache__/

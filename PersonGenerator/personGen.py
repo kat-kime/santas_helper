@@ -30,19 +30,19 @@ states = [
 ]
 
 stateDict = {
-'Alaska': 'ak.csv',
-'Arizona': 'az.csv',
-'California': 'ca.csv',
-'Colorado': 'co.csv',
-'Hawaii': 'hi.csv',
-'Idaho': 'id.csv',
-'Montana': 'mt.csv',
-'New Mexico': 'nm.csv',
-'Nevada': 'nv.csv',
-'Oregon': 'or.csv',
-'Utah': 'ut.csv',
-'Washington': 'wa.csv',
-'Wyoming': 'wy.csv'
+'Alaska': 'PersonGenerator/ak.csv',
+'Arizona': 'PersonGenerator/az.csv',
+'California': 'PersonGenerator/ca.csv',
+'Colorado': 'PersonGenerator/co.csv',
+'Hawaii': 'PersonGenerator/hi.csv',
+'Idaho': 'PersonGenerator/id.csv',
+'Montana': 'PersonGenerator/mt.csv',
+'New Mexico': 'PersonGenerator/nm.csv',
+'Nevada': 'PersonGenerator/nv.csv',
+'Oregon': 'PersonGenerator/or.csv',
+'Utah': 'PersonGenerator/ut.csv',
+'Washington': 'PersonGenerator/wa.csv',
+'Wyoming': 'PersonGenerator/wy.csv'
 }
 
 def getInfo(state, num):
