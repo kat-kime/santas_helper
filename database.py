@@ -72,7 +72,7 @@ class Database:
         :return: An array of products
         """
 
-        file = open(infile)
+        file = open(infile, encoding='utf-8')
         amazon_reader = csv.reader(file)
 
         product_array = list(amazon_reader)
