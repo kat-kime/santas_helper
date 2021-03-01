@@ -89,7 +89,7 @@ def submitInfo(event):
 
 
 def output(state, num, infoList):
-    outfile = open('output.csv', 'w')
+    outfile = open('../output.csv', 'w')
     names = ['input_state','input_number_to_generate','output_content_type','output_content_value']
     writer = csv.DictWriter(outfile, fieldnames=names, lineterminator = '\n')
     writer.writeheader()
@@ -139,7 +139,7 @@ if len(sys.argv) == 2:
                 line += 1
             else:
                 inputList.append(row)
-        outfile = open('output.csv', 'w')
+        outfile = open('../output.csv', 'w')
         names = ['input_state','input_number_to_generate','output_content_type','output_content_value']
         writer = csv.DictWriter(outfile, fieldnames=names, lineterminator = '\n')
         writer.writeheader()
